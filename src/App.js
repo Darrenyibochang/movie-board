@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import { Fragment } from "react";
+import { Route, Switch } from "react-router-dom";
+import FavoriteList from "./containers/FavoriteList";
+import LoginPage from "./containers/LoginPage";
+import MovieDetailsPage from "./containers/MovieDetailsPage";
+import MovieList from "./containers/MovieList";
+import RatedList from "./containers/RatedList";
+import "./styles.css";
+import NavBar from "./containers/NavBar";
+import DataProvider from "./dataProviders/DataProvider";
+import UserInfoLoader from "./containers/UserInfoLoader";
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <DataProvider>
+        <UserInfoLoader>
+          <NavBar />
+          <Switch>
+            <Route path="/" exact>
+              <MovieList />
+            </Route>
+            <Route path="/movies/:movieId" exact>
+              <MovieDetailsPage />
+            </Route>
+            <Route path="/favorite">
+              <FavoriteList />
+            </Route>
+            <Route path="/rated">
+              <RatedList />
+            </Route>
+            <Route>
+              <LoginPage />
+            </Route>
+          </Switch>
+        </UserInfoLoader>
+      </DataProvider>
+    </Fragment>
   );
 }
-
-export default App;
